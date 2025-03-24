@@ -1,0 +1,35 @@
+import math
+
+
+def dot_product(arr1, arr2):
+    value = 0
+    for i, j in zip(arr1, arr2):
+        value += i * j
+    return value
+
+
+def sigmoid(val):
+    value = math.exp(val)
+    return round(value / (1 + value), 4)
+
+
+def single_neuron_model(
+    features: list[list[float]], labels: list[int], weights: list[float], bias: float
+) -> (list[float], float):
+    error = 0
+    probabilities = []
+    for feature, label in zip(features, labels):
+        res = dot_product(feature, weights) + bias
+        sig_res = sigmoid(res)
+        probabilities.append(sig_res)
+        error += math.pow(label - sig_res, 2)
+    mse = round(error / len(features), 4)
+
+    return probabilities, mse
+
+
+features = [[0.5, 1.0], [-1.5, -2.0], [2.0, 1.5]]
+labels = [0, 1, 0]
+weights = [0.7, -0.4]
+bias = -0.1
+single_neuron_model(features, labels, weights, bias)
